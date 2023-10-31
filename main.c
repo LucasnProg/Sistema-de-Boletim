@@ -3,6 +3,6 @@
 
 int main()
 {
-    printf("Antonio é velho!");
+    printf("Luis é lindo");
     return 0;
 }
