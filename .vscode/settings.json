@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "functions.h": "c",
+        "structs.h": "c",
+        "sqlite3.h": "c"
     }
 }
