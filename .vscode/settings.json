@@ -3,6 +3,8 @@
         "stdio.h": "c",
         "functions.h": "c",
         "structs.h": "c",
-        "sqlite3.h": "c"
+        "sqlite3.h": "c",
+        "string.h": "c",
+        "stdbool.h": "c"
     }
 }

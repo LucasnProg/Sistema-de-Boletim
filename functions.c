@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdbool.h>
+
 #include "functions.h"
 
 bool checkCPF(char name[], char cpf[], char password[])
@@ -40,3 +42,20 @@ void addGerente(char name[], char cpf[], char password[])
     }
     fclose(managersPtr);
 }
+/*
+void cadastra_cliente(char name[], char cpf[], char email[], char password[])
+{
+    File *clientesPtr;
+    if((clientesPtr = fopen("clientes.txt", "a")) == NULL)
+    {
+        printf("Não foi possivel acessar o Banco de clientes!");
+    }
+    else
+    {
+        if (checkCPF(cpf) == false)
+            printf("Já existe um cadastro com esse CPF");
+        else
+            fprintf(clientesPtr,"%s|%s|%s|%s\n",name,cpf,email,password);
+    }
+    fclose(clientesPtr)
+}*/
