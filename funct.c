@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
-
-#include "functions.h"
+#include <string.h>
 
 bool checkCPF(char name[], char cpf[], char password[])
 {
@@ -13,17 +12,17 @@ bool checkCPF(char name[], char cpf[], char password[])
     }
     else
     {     
-        while((fscanf(managersPtr,"%s|%s|%s",currentName,currentCpf,currentPassword))==3)
+        while((fscanf(managersPtr,"%99s|%11s|%49s",currentName,currentCpf,currentPassword))==3)
         {
             if(strcmp(cpf,currentCpf) == 0)
                 {
                 fclose(managersPtr);                
-                return 0;
+                return true;
                 }
         }
     }
     fclose(managersPtr);
-    return 1;
+    return false;
 }
 
 void addGerente(char name[], char cpf[], char password[])
@@ -35,27 +34,11 @@ void addGerente(char name[], char cpf[], char password[])
     }
     else
     {   
-        if (checkCPF(cpf) == false)
+        if (checkCPF(name,cpf,password) == true)
             printf("Esse Gerente já está cadastrado no sistema");
         else
-        fprintf(managersPtr,"%s|%s|%s\n",name,cpf,password);
+            fprintf(managersPtr,"%s|%s|%s\n",name,cpf,password);
+            printf("Adicionado com sucesso!");
     }
     fclose(managersPtr);
 }
-/*
-void cadastra_cliente(char name[], char cpf[], char email[], char password[])
-{
-    File *clientesPtr;
-    if((clientesPtr = fopen("clientes.txt", "a")) == NULL)
-    {
-        printf("Não foi possivel acessar o Banco de clientes!");
-    }
-    else
-    {
-        if (checkCPF(cpf) == false)
-            printf("Já existe um cadastro com esse CPF");
-        else
-            fprintf(clientesPtr,"%s|%s|%s|%s\n",name,cpf,email,password);
-    }
-    fclose(clientesPtr)
-}*/
