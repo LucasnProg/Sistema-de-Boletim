@@ -104,6 +104,67 @@ Student* addAluno(char novoName[], char newMat[], float novaNota, Student* array
     return arrayAlunos;
 }
 
+Student* removeAluno(char removeMat[], Student* arrayAlunos)
+{
+    Student *currentStudent = arrayAlunos;
+    Student *proxStudent = arrayAlunos;
+
+    if(arrayAlunos==NULL)
+    {
+        printf("Nao existem alunos para serem removidos");
+        return arrayAlunos;
+    }
+    else if(currentStudent->nextStudent == NULL)
+    {
+        if(strcmp(currentStudent->matricula,removeMat) == 0)
+        {
+            free(currentStudent);
+            update_Students(arrayAlunos);
+        }
+        return arrayAlunos;
+    }
+    proxStudent = proxStudent->nextStudent;
+    while(proxStudent != NULL)
+    {
+        if(strcmp(proxStudent->matricula,removeMat) == 0)
+            {
+                currentStudent -> nextStudent = proxStudent -> nextStudent;
+                free(proxStudent);
+                update_Students(arrayAlunos);
+                return arrayAlunos;
+            }
+                
+        currentStudent = currentStudent -> nextStudent;
+        proxStudent = proxStudent -> nextStudent;
+    }
+    printf("Nao ha aluno com essa matricula\n");
+    return arrayAlunos;
+}
+
+Student* changeNota(char mat[], float notaNova, Student* arrayAlunos)
+{
+    Student* currentStudent = arrayAlunos;
+    if(arrayAlunos == NULL)
+    {
+        printf("Nao ha alunos para serem alterados.\n");
+        return arrayAlunos;
+    }
+    else
+    {
+        while (currentStudent!= NULL) 
+        {
+            if(strcmp(currentStudent->matricula,mat) == 0)
+            {
+                currentStudent->nota = notaNova;
+                update_Students(arrayAlunos);
+                return arrayAlunos;
+            }
+        currentStudent = currentStudent->nextStudent;
+        }
+    }
+    printf("O aluno nao existe.\n");
+    return arrayAlunos;
+}
 
 
 
@@ -261,6 +322,43 @@ bool loginTeacher(char cpf[], char password[])
         }
         fclose(teacherPtr);
     }
+}
+
+Teacher* removeTeacher(char removeCPF[], Teacher* arrayTeacher)
+{
+    Teacher *currentTeacher = arrayTeacher;
+    Teacher *proxTeacher = arrayTeacher;
+
+    if(arrayTeacher==NULL)
+    {
+        printf("Nao existem professores para serem removidos");
+        return arrayTeacher;
+    }
+    else if(currentTeacher->nextTeacher == NULL)
+    {
+        if(strcmp(currentTeacher->cpf,removeCPF) == 0)
+        {
+            free(currentTeacher);
+            update_Teachers(arrayTeacher);
+        }
+        return arrayTeacher;
+    }
+    proxTeacher = proxTeacher->nextTeacher;
+    while(proxTeacher != NULL)
+    {
+        if(strcmp(proxTeacher->cpf,removeCPF) == 0)
+            {
+                currentTeacher -> nextTeacher = proxTeacher -> nextTeacher;
+                free(proxTeacher);
+                update_Teachers(arrayTeacher);
+                return arrayTeacher;
+            }
+                
+        currentTeacher = currentTeacher -> nextTeacher;
+        proxTeacher = proxTeacher -> nextTeacher;
+    }
+    printf("Nao ha professor com esse cpf\n");
+    return arrayTeacher;
 }
 
 bool validatePassword(char password[])

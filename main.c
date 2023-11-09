@@ -9,13 +9,11 @@
 int main()
 {
     setlocale(LC_ALL, "");
-    /*addAluno("Eduardo","231080421",9.8);
-    addAluno("Lucas","222080434",9.8);
-    addAluno("Luis","231080434",9.8);*/
 
-    /*
-    Teacher *teachersArray = get_Teachers();
-    teachersArray = addTeacher("ALBERTO","65419546812","Teste12348",teachersArray);
+
+    
+    /*Teacher *teachersArray = get_Teachers();
+    teachersArray = removeTeacher("59135765412",teachersArray);
     Teacher* currentTeacher = teachersArray;
 
     while (currentTeacher != NULL) {
@@ -23,18 +21,31 @@ int main()
     currentTeacher = currentTeacher->nextTeacher;
     }*/
 
-    
+
+    /*
     printf("ALUNOS:\n");
 
-
     Student *studentsArray = get_students();
-    studentsArray = addAluno("ALBERTO", "231040444",10.0, studentsArray);
     Student* currentStudent = studentsArray;
+
+    //studentsArray = addAluno("Eduardo","231080421",9.8,studentsArray);
+    //studentsArray = addAluno("Lucas","222080434",9.8,studentsArray);
+    //studentsArray = addAluno("Luis","231080434",9.8,studentsArray);
 
     while (currentStudent != NULL) {
     printf("\nNome: %s\nMatricula: %s\nNota: %.2f\n", currentStudent->name, currentStudent->matricula, currentStudent->nota);
     currentStudent = currentStudent->nextStudent;
     }
+    
+    printf("\nALTERADO:\n");
+    //studentsArray = addAluno("ALBERTO", "231040444",10.0, studentsArray);
+    //studentsArray = removeAluno("222080434",studentsArray);
+    changeNota("231080434",9.0,studentsArray);
+
+    while (currentStudent != NULL) {
+    printf("\nNome: %s\nMatricula: %s\nNota: %.2f\n", currentStudent->name, currentStudent->matricula, currentStudent->nota);
+    currentStudent = currentStudent->nextStudent;
+    }*/
 
     
 
