@@ -13,27 +13,36 @@ int main()
     addAluno("Lucas","222080434",9.8);
     addAluno("Luis","231080434",9.8);*/
 
-
+    /*
     Teacher *teachersArray = get_Teachers();
+    teachersArray = addTeacher("ALBERTO","65419546812","Teste12348",teachersArray);
     Teacher* currentTeacher = teachersArray;
 
     while (currentTeacher != NULL) {
     printf("\nNome: %s\nCPF: %s\nPASSWORD: %s\n", currentTeacher->name, currentTeacher->cpf, currentTeacher->password);
     currentTeacher = currentTeacher->nextTeacher;
-    }
+    }*/
 
+    
     printf("ALUNOS:\n");
 
-    //pegando apenas o primeiro aluno, resolver.
 
     Student *studentsArray = get_students();
+    studentsArray = addAluno("ALBERTO", "231040444",10.0, studentsArray);
     Student* currentStudent = studentsArray;
 
     while (currentStudent != NULL) {
-    printf("\nNome: %s\nMatricula: %d\nNota: %.2f\n", currentStudent->name, currentStudent->matricula, currentStudent->nota);
+    printf("\nNome: %s\nMatricula: %s\nNota: %.2f\n", currentStudent->name, currentStudent->matricula, currentStudent->nota);
     currentStudent = currentStudent->nextStudent;
     }
 
+    
+
+    /*
+    if(checkCPF(teachersArray, "10987654321")==true)
+        printf("TRUE");
+    else
+        printf("False");*/
 
     
 

@@ -6,6 +6,7 @@
 #include <string.h>
 #include <locale.h>
 
+//FUNÇÕES ALUNOS.
 
 Student* get_students()
 {
@@ -15,7 +16,7 @@ Student* get_students()
     char currentName[100], currentMatricula[10];
     float currentNota;
 
-    if ((alunosFilePtr = fopen("studensData.dat", "r")) == NULL)
+    if ((alunosFilePtr = fopen("studentsData.dat", "r")) == NULL)
     {
         printf("Não foi possível acessar os dados dos alunos!\n");
     }
@@ -49,22 +50,64 @@ Student* get_students()
 }
 
 
-
-void addAluno(char name[], char mat[], float nota)
+void update_Students(Student *studentsArray)
 {
-    FILE *alunosFilePtr;
-    if ((alunosFilePtr = fopen("studensData.dat", "a")) == NULL)
+    FILE *alunosfilePtr;
+    Student* currentStudent = studentsArray;
+
+    if ((alunosfilePtr = fopen("studentsData.dat", "w")) == NULL)
     {
         printf("Não foi possivel acessar os dados dos alunos!\n");
     }
     else
     {
-        fprintf(alunosFilePtr, "%s %s %f\n", name, mat, nota);
-        printf("Adicionado com sucesso!\n");
+        while (currentStudent != NULL) 
+        {
+            fprintf(alunosfilePtr,"%s %s %.2f\n", currentStudent->name, currentStudent->matricula, currentStudent->nota);
+            currentStudent = currentStudent->nextStudent;
+        }
+        fclose(alunosfilePtr);
     }
-    fclose(alunosFilePtr);
+    
 }
 
+Student* addAluno(char novoName[], char newMat[], float novaNota, Student* arrayAlunos)
+{
+    Student* newStudent = (Student*)malloc(sizeof(Student));
+    newStudent->nextStudent = NULL;
+
+    strcpy(newStudent->name, novoName);
+    strcpy(newStudent->matricula, newMat);
+    newStudent->nota = novaNota;
+    
+    if(arrayAlunos == NULL)
+    {
+        arrayAlunos = newStudent;
+    }
+    
+    else
+    {
+        Student *currentStudent = arrayAlunos;
+        while(currentStudent != NULL)
+        {
+            if(currentStudent->nextStudent == NULL)
+                {
+                    currentStudent -> nextStudent = newStudent;
+                    update_Students(arrayAlunos);
+                    return arrayAlunos;
+                }
+                
+            currentStudent = currentStudent->nextStudent;
+        }
+    }    
+    update_Students(arrayAlunos);
+    return arrayAlunos;
+}
+
+
+
+
+//FUNÇÕES DE PROFESSORES
 
 Teacher* get_Teachers()
 {
@@ -101,56 +144,92 @@ Teacher* get_Teachers()
         }
         fclose(teacherFilePtr);
     }
-    printf("FUNCIONOOOOOU!\n");
     return arrayTeacher;
 }
 
-
-bool checkCPF(char cpf[])
+void update_Teachers(Teacher *teachesArray)
 {
-    FILE *teacherPtr;
-    char currentCpf[12], currentName[100], currentPassword[50];
-    if ((teacherPtr = fopen("teachers.dat", "r")) == NULL)
+    FILE *teacherFilePtr;
+    Teacher* currentTeacher = teachesArray;
+
+    if ((teacherFilePtr = fopen("teachers.dat", "w")) == NULL)
     {
-        printf("Não foi possivel acessar o Banco de Professores!");
+        printf("Não foi possivel acessar os dados dos professores!\n");
     }
     else
     {
-        while (!feof(teacherPtr))
+        while (currentTeacher != NULL) 
         {
-            fscanf(teacherPtr, "%s\0 %s\0 %s\0\n", &currentName, &currentCpf, &currentPassword);
-            if (strcmp(cpf, currentCpf) == 0)
-            {
-                fclose(teacherPtr);
-                return true;
-            }
+            fprintf(teacherFilePtr,"%s %s %s\n", currentTeacher->name, currentTeacher->cpf, currentTeacher->password);
+            currentTeacher = currentTeacher->nextTeacher;
         }
-        fclose(teacherPtr);
-        return false;
+        fclose(teacherFilePtr);
     }
+    
 }
 
-void addTeacher(char name[], char cpf[], char password[])
+bool checkCPF(Teacher *arrayTeachers, char cpf[])
 {
-    FILE *teacherPtr;
-    if ((teacherPtr = fopen("teachers.dat", "a")) == NULL)
+    char currentCpf[12];
+    Teacher* currentTeacher = arrayTeachers;
+
+    while (currentTeacher != NULL) 
     {
-        printf("Não foi possivel acessar o Banco de Professores!\n");
+        strcpy(currentCpf, currentTeacher->cpf);
+        if(strcmp(currentCpf,cpf)==0)
+                return true;
+        else
+            currentTeacher = currentTeacher->nextTeacher;
+    }
+
+    return false;
+}
+
+Teacher* addTeacher(char name[], char cpf[], char password[], Teacher *arrayTeachers)
+{
+    if (checkCPF(arrayTeachers, cpf) == true)
+    {
+        printf("RELATORIO DE ERRO:\n");
+        printf("    # Esse professor já está cadastrado no sistema.\n    FAÇA O LOGIN!\n");
+        
+        return arrayTeachers; 
     }
     else
-    {
-        if (checkCPF(cpf) == true)
+    {   
+        printf("ENTROU NO ELSE\n");
+        Teacher *newTeacher = (Teacher*)malloc(sizeof(Teacher));
+        newTeacher->nextTeacher = NULL;
+        printf("CRIOU O 'NEWTEACHER'\n");
+
+        strcpy(newTeacher->name, name);
+        strcpy(newTeacher->cpf, cpf);
+        strcpy(newTeacher->password, password);
+        printf("ADICIONOU VALORES A ELE\n");
+
+
+        if (arrayTeachers == NULL)
         {
-            printf("RELATORIO DE ERRO:\n");
-            printf("    # Esse professor já está cadastrado no sistema.\n    FAÇA O LOGIN!\n");
+           arrayTeachers = newTeacher;
         }
         else
         {
-            fprintf(teacherPtr, "%s %s %s\n", name, cpf, password);
-            printf("Adicionado com sucesso!\n");
-        }
+            Teacher *currentTeacher = arrayTeachers;
+            while (currentTeacher != NULL)
+            {
+                printf("AINDA NÃO É O ULTIMO\n");
+                if(currentTeacher->nextTeacher == NULL)
+                {
+                    currentTeacher -> nextTeacher = newTeacher;
+                    update_Teachers(arrayTeachers);
+                    return arrayTeachers;
+                }
+                
+                currentTeacher = currentTeacher->nextTeacher;
+            }
+ 
+        }  
     }
-    fclose(teacherPtr);
+
 }
 
 bool loginTeacher(char cpf[], char password[])
