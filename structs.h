@@ -11,6 +11,16 @@ struct teacher
 
 typedef struct teacher Teacher;
 
+/*struct disciplina
+{
+    char matricula[10];
+    float math;
+    float cience;
+    float portugues;
+    float geograph;
+    struct disciplina *proxMatricula;
+};*/
+
 
 struct student
 {
@@ -18,6 +28,7 @@ struct student
     char matricula[10];
     float nota;
     struct student* nextStudent;
+    
 };
 
 typedef struct student Student;

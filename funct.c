@@ -167,6 +167,20 @@ Student* changeNota(char mat[], float notaNova, Student* arrayAlunos)
 }
 
 
+bool checkMatricula(Student *arrayStudent, char matr[])
+{
+    Student* currentStudent = arrayStudent;
+
+    while (currentStudent != NULL) 
+    {
+        if(strcmp(currentStudent -> matricula, matr)==0)
+            return true;
+        currentStudent = currentStudent -> nextTeacher;
+    }
+
+    return false;
+}
+
 
 //FUNÇÕES DE PROFESSORES
 
@@ -293,35 +307,19 @@ Teacher* addTeacher(char name[], char cpf[], char password[], Teacher *arrayTeac
 
 }
 
-bool loginTeacher(char cpf[], char password[])
+bool loginTeacher(char cpf[], char password[], Teacher *arrayTeacher)
 {
-    FILE *teacherPtr;
-    char currentCpf[12], currentName[100], currentPassword[50];
-    if ((teacherPtr = fopen("teachers.dat", "r")) == NULL)
+    Teacher *currentTeacher = arrayTeacher;
+
+    if(arrayTeacher==NULL)
+        return NULL;
+    while(currentTeacher != NULL)
     {
-        printf("Não foi possivel acessar o Banco de Professores!");
+        if(strcmp(currentTeacher->cpf,cpf) == 0 && strcmp(currentTeacher->password,password) == 0)
+                return true;       
+        currentTeacher = currentTeacher -> nextTeacher;
     }
-    else
-    {
-        while (!feof(teacherPtr))
-        {
-            fscanf(teacherPtr, "%s %s %s\n", currentName, currentCpf, currentPassword);
-            if (strcmp(cpf, currentCpf) == 0 && strcmp(password, currentPassword) == 0)
-            {
-                fclose(teacherPtr);
-                return true;
-            }
-            else if (strcmp(cpf, currentCpf) == 0 && strcmp(password, currentPassword) != 0)
-            {
-                return false;
-            }
-            else if (strcmp(cpf, currentCpf) != 0 && strcmp(password, currentPassword) == 0)
-            {
-                return NULL;
-            }
-        }
-        fclose(teacherPtr);
-    }
+    return false;
 }
 
 Teacher* removeTeacher(char removeCPF[], Teacher* arrayTeacher)

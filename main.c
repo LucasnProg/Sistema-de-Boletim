@@ -12,14 +12,16 @@ int main()
 
 
     
-    /*Teacher *teachersArray = get_Teachers();
+    /*
+    Teacher *teachersArray = get_Teachers();
     teachersArray = removeTeacher("59135765412",teachersArray);
     Teacher* currentTeacher = teachersArray;
 
     while (currentTeacher != NULL) {
     printf("\nNome: %s\nCPF: %s\nPASSWORD: %s\n", currentTeacher->name, currentTeacher->cpf, currentTeacher->password);
     currentTeacher = currentTeacher->nextTeacher;
-    }*/
+    }
+    */
 
 
     /*
