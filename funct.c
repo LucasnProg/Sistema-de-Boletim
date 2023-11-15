@@ -14,7 +14,6 @@ Student* get_students()
     Student* arrayAlunos = NULL;
     Student* lastStudent = NULL;
     char currentName[100], currentMatricula[10];
-    float currentNota;
 
     if ((alunosFilePtr = fopen("studentsData.dat", "r")) == NULL)
     {
@@ -22,15 +21,13 @@ Student* get_students()
     }
     else
     {
-        while (fscanf(alunosFilePtr, "%s %s %f", currentName, currentMatricula, &currentNota) == 3)
+        while (fscanf(alunosFilePtr, "%s %s", currentName, currentMatricula) == 2)
         {
             Student* newStudent = (Student*)malloc(sizeof(Student));
             newStudent->nextStudent = NULL;
 
             strcpy(newStudent->name, currentName);
             strcpy(newStudent->matricula, currentMatricula);
-
-            newStudent->nota = currentNota;
 
             if (arrayAlunos == NULL)
             {
@@ -63,7 +60,7 @@ void update_Students(Student *studentsArray)
     {
         while (currentStudent != NULL) 
         {
-            fprintf(alunosfilePtr,"%s %s %.2f\n", currentStudent->name, currentStudent->matricula, currentStudent->nota);
+            fprintf(alunosfilePtr,"%s %s\n", currentStudent->name, currentStudent->matricula);
             currentStudent = currentStudent->nextStudent;
         }
         fclose(alunosfilePtr);
@@ -71,14 +68,27 @@ void update_Students(Student *studentsArray)
     
 }
 
-Student* addAluno(char novoName[], char newMat[], float novaNota, Student* arrayAlunos)
+bool checkMatricula(Student *arrayStudent, char matr[])
+{
+    Student* currentStudent = arrayStudent;
+
+    while (currentStudent != NULL) 
+    {
+        if(strcmp(currentStudent -> matricula, matr)==0)
+            return true;
+        currentStudent = currentStudent -> nextStudent;
+    }
+
+    return false;
+}
+/*
+Student* addAluno(char novoName[], char newMat[], Student* arrayAlunos)
 {
     Student* newStudent = (Student*)malloc(sizeof(Student));
     newStudent->nextStudent = NULL;
 
     strcpy(newStudent->name, novoName);
     strcpy(newStudent->matricula, newMat);
-    newStudent->nota = novaNota;
     
     if(arrayAlunos == NULL)
     {
@@ -88,21 +98,28 @@ Student* addAluno(char novoName[], char newMat[], float novaNota, Student* array
     else
     {
         Student *currentStudent = arrayAlunos;
-        while(currentStudent != NULL)
+        if(checkMatricula(currentStudent, newMat))
         {
-            if(currentStudent->nextStudent == NULL)
-                {
-                    currentStudent -> nextStudent = newStudent;
-                    update_Students(arrayAlunos);
-                    return arrayAlunos;
-                }
-                
-            currentStudent = currentStudent->nextStudent;
+            printf("Esse aluno ja existe!");
+            return arrayAlunos;
+        }
+        else
+        {
+            while(currentStudent != NULL)
+            {
+                if(currentStudent->nextStudent == NULL)
+                    {
+                        
+                        currentStudent -> nextStudent = newStudent;
+                        update_Students(arrayAlunos);
+                        return arrayAlunos;
+                    }
+                    
+                currentStudent = currentStudent->nextStudent;
+            }
         }
     }    
-    update_Students(arrayAlunos);
-    return arrayAlunos;
-}
+}*/
 
 Student* removeAluno(char removeMat[], Student* arrayAlunos)
 {
@@ -141,7 +158,7 @@ Student* removeAluno(char removeMat[], Student* arrayAlunos)
     return arrayAlunos;
 }
 
-Student* changeNota(char mat[], float notaNova, Student* arrayAlunos)
+/*Student* changeNota(char mat[], float notaNova, Student* arrayAlunos)
 {
     Student* currentStudent = arrayAlunos;
     if(arrayAlunos == NULL)
@@ -164,23 +181,7 @@ Student* changeNota(char mat[], float notaNova, Student* arrayAlunos)
     }
     printf("O aluno nao existe.\n");
     return arrayAlunos;
-}
-
-
-bool checkMatricula(Student *arrayStudent, char matr[])
-{
-    Student* currentStudent = arrayStudent;
-
-    while (currentStudent != NULL) 
-    {
-        if(strcmp(currentStudent -> matricula, matr)==0)
-            return true;
-        currentStudent = currentStudent -> nextStudent;
-    }
-
-    return false;
-}
-
+}*/
 
 //FUNÇÕES DE PROFESSORES
 
@@ -189,7 +190,7 @@ Teacher* get_Teachers()
     FILE *teacherFilePtr;
     Teacher *arrayTeacher = NULL;
     Teacher *lastTeacher = NULL;
-    char currentCpf[12], currentName[100], currentPassword[50];
+    char currentCpf[12], currentName[100], currentPassword[50],currentMatter[12];
 
     if ((teacherFilePtr = fopen("teachers.dat", "r")) == NULL)
     {
@@ -197,7 +198,7 @@ Teacher* get_Teachers()
     }
     else
     {
-        while (fscanf(teacherFilePtr, "%s %s %s", currentName, currentCpf, currentPassword) == 3)
+        while (fscanf(teacherFilePtr, "%s %s %s %s", currentName, currentCpf, currentPassword, currentMatter) == 4)
         {
             Teacher *newTeacher = (Teacher*)malloc(sizeof(Teacher));
             newTeacher->nextTeacher = NULL;
@@ -205,6 +206,7 @@ Teacher* get_Teachers()
             strcpy(newTeacher->name, currentName);
             strcpy(newTeacher->cpf, currentCpf);
             strcpy(newTeacher->password, currentPassword);
+            strcpy(newTeacher->matter, currentMatter);
 
             if (arrayTeacher == NULL)
             {
@@ -222,10 +224,10 @@ Teacher* get_Teachers()
     return arrayTeacher;
 }
 
-void update_Teachers(Teacher *teachesArray)
+void update_Teachers(Teacher *teachersArray)
 {
     FILE *teacherFilePtr;
-    Teacher* currentTeacher = teachesArray;
+    Teacher* currentTeacher = teachersArray;
 
     if ((teacherFilePtr = fopen("teachers.dat", "w")) == NULL)
     {
@@ -235,7 +237,7 @@ void update_Teachers(Teacher *teachesArray)
     {
         while (currentTeacher != NULL) 
         {
-            fprintf(teacherFilePtr,"%s %s %s\n", currentTeacher->name, currentTeacher->cpf, currentTeacher->password);
+            fprintf(teacherFilePtr,"%s %s %s %s\n", currentTeacher->name, currentTeacher->cpf, currentTeacher->password, currentTeacher->matter);
             currentTeacher = currentTeacher->nextTeacher;
         }
         fclose(teacherFilePtr);
@@ -259,8 +261,8 @@ bool checkCPF(Teacher *arrayTeachers, char cpf[])
 
     return false;
 }
-
-Teacher* addTeacher(char name[], char cpf[], char password[], Teacher *arrayTeachers)
+/*
+Teacher* addTeacher(char name[], char cpf[], char password[],char matter[], Teacher *arrayTeachers)
 {
     if (checkCPF(arrayTeachers, cpf) == true)
     {
@@ -271,15 +273,14 @@ Teacher* addTeacher(char name[], char cpf[], char password[], Teacher *arrayTeac
     }
     else
     {   
-        printf("ENTROU NO ELSE\n");
         Teacher *newTeacher = (Teacher*)malloc(sizeof(Teacher));
         newTeacher->nextTeacher = NULL;
-        printf("CRIOU O 'NEWTEACHER'\n");
 
         strcpy(newTeacher->name, name);
         strcpy(newTeacher->cpf, cpf);
         strcpy(newTeacher->password, password);
-        printf("ADICIONOU VALORES A ELE\n");
+        strcpy(newTeacher->matter, matter);
+
 
 
         if (arrayTeachers == NULL)
@@ -291,7 +292,6 @@ Teacher* addTeacher(char name[], char cpf[], char password[], Teacher *arrayTeac
             Teacher *currentTeacher = arrayTeachers;
             while (currentTeacher != NULL)
             {
-                printf("AINDA NÃO É O ULTIMO\n");
                 if(currentTeacher->nextTeacher == NULL)
                 {
                     currentTeacher -> nextTeacher = newTeacher;
@@ -302,10 +302,10 @@ Teacher* addTeacher(char name[], char cpf[], char password[], Teacher *arrayTeac
                 currentTeacher = currentTeacher->nextTeacher;
             }
  
-        }  
+        }
     }
 
-}
+}*/
 
 bool loginTeacher(char cpf[], char password[], Teacher *arrayTeacher)
 {
@@ -358,7 +358,7 @@ Teacher* removeTeacher(char removeCPF[], Teacher* arrayTeacher)
     printf("Nao ha professor com esse cpf\n");
     return arrayTeacher;
 }
-
+/*
 bool validatePassword(char password[])
 {
     int has_digit = 0, has_upper = 0, has_lower = 0, has_space = 0;
@@ -433,11 +433,11 @@ bool validateCpf(char cpf[])
         return false;
     }
     return true;
-}
+}*/
 
-//FUNÇÕES DE TURMAS
+//FUNÇÕES DE BOLETIM
 
-void createClass(char className[], Student *arrayStudents) {
+/*void createClass(char className[], Student *arrayStudents) {
     FILE *classPtr;
     Student *currentStudent = arrayStudents; 
     int length = strlen(className) + 5;
@@ -457,4 +457,134 @@ void createClass(char className[], Student *arrayStudents) {
         }
         fclose(classPtr);
     }
+}*/
+
+void updateBoletim(Boletim *boletim)
+{
+    FILE *BolFilePtr;
+    Boletim* currentBol = boletim;
+
+    if ((BolFilePtr = fopen("boletim.dat", "w")) == NULL)
+    {
+        printf("Não foi possivel acessar os dados dos professores!\n");
+    }
+    else
+    {
+        while (currentBol != NULL) 
+        {
+            fprintf(BolFilePtr, "%s %.2f %.2f %.2f %.2f\n",currentBol->matricula, currentBol->math, currentBol->cience, currentBol->portuguese ,currentBol->geograph);
+            currentBol = currentBol->nextMat;
+        }
+        fclose(BolFilePtr);
+    }
+    
 }
+
+Boletim* addNota(char matricula[], float nota,char matter[], Boletim *arrayBoletim)
+{
+    Boletim *currentBoletim = arrayBoletim;
+    while(currentBoletim != NULL)
+    {
+        if(strcmp(currentBoletim->matricula, matricula) == 0)
+        {
+            if (strcmp(matter, "math")==0)
+                currentBoletim->math = nota;
+            else if (strcmp(matter, "cience")==0)
+                currentBoletim->cience = nota;
+            else if (strcmp(matter, "portuguese")==0)
+                currentBoletim->portuguese = nota;
+            else if (strcmp(matter, "geograph")==0)
+                currentBoletim->geograph = nota;
+        }
+             
+        currentBoletim = currentBoletim->nextMat;
+    }
+
+        updateBoletim(arrayBoletim);
+        return (arrayBoletim);
+
+}
+
+
+void generateBoletim(Student *students) {
+    FILE *boletimPtr;
+
+    if ((boletimPtr = fopen("boletim.dat", "w")) == NULL) {
+        printf("Ocorreu algum problema ao acessar o boletim\n");
+        return;
+    }
+
+    while (students != NULL) {
+        fprintf(boletimPtr, "%s %.2f %.2f %.2f %.2f\n", students->matricula, 0.0, 0.0, 0.0, 0.0);
+        students = students->nextStudent;
+    }
+
+    fclose(boletimPtr);
+}
+
+Boletim* getBoletim()
+{
+    FILE *boletimFilePtr;
+    Boletim *boletimArray = NULL;
+    Boletim *lastBoletim = NULL;
+    char currentMatricula[10];
+    float currentMath, currentPortuguese, currentGeograph, currentCience;
+
+    if((boletimFilePtr = fopen("boletim.dat", "r"))==NULL)
+    {
+        printf("Nao foi possivel acessar o boletim\n");
+    }
+    else
+    {
+        while ((fscanf(boletimFilePtr, "%s %f %f %f %f", currentMatricula,&currentMath,&currentCience,&currentPortuguese,&currentGeograph) == 5))
+        {
+            Boletim* newBoletim = (Boletim*)malloc(sizeof(Boletim));
+            newBoletim->nextMat = NULL;
+
+            strcpy(newBoletim->matricula, currentMatricula);;
+            newBoletim->math = currentMath;
+            newBoletim->cience = currentCience;
+            newBoletim->portuguese = currentPortuguese;
+            newBoletim->geograph = currentGeograph;
+
+
+            if (boletimArray == NULL)
+            {
+                boletimArray = newBoletim;
+                lastBoletim = newBoletim;
+            }
+            else
+            {
+                lastBoletim->nextMat = newBoletim;
+                lastBoletim = newBoletim;
+            }
+
+        }
+        fclose(boletimFilePtr);
+    }
+
+    return boletimArray;
+}
+
+/*
+void update_Students(Student *studentsArray)
+{
+    FILE *alunosfilePtr;
+    Student* currentStudent = studentsArray;
+
+    if ((alunosfilePtr = fopen("studentsData.dat", "w")) == NULL)
+    {
+        printf("Não foi possivel acessar os dados dos alunos!\n");
+    }
+    else
+    {
+        while (currentStudent != NULL) 
+        {
+            fprintf(alunosfilePtr,"%s %s\n", currentStudent->name, currentStudent->matricula);
+            currentStudent = currentStudent->nextStudent;
+        }
+        fclose(alunosfilePtr);
+    }
+    
+}
+*/

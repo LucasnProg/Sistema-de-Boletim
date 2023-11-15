@@ -6,29 +6,29 @@ struct teacher
     char name[100];
     char cpf[12];
     char password[50];
+    char matter[12];
     struct teacher *nextTeacher;
 } ;
 
 typedef struct teacher Teacher;
 
-/*struct disciplina
+struct boletim
 {
     char matricula[10];
     float math;
     float cience;
-    float portugues;
+    float portuguese;
     float geograph;
-    struct disciplina *proxMatricula;
-};*/
+    struct boletim *nextMat;
+};
 
+typedef struct boletim Boletim;
 
 struct student
 {
     char name[100];
     char matricula[10];
-    float nota;
     struct student* nextStudent;
-    
 };
 
 typedef struct student Student;
