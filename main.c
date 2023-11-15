@@ -10,7 +10,8 @@ int main()
 {
     setlocale(LC_ALL, "");
 
-
+    Student *studentsArray = get_students();
+    createClass("math",studentsArray);
     
     /*
     Teacher *teachersArray = get_Teachers();

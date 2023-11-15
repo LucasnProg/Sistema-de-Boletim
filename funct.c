@@ -175,7 +175,7 @@ bool checkMatricula(Student *arrayStudent, char matr[])
     {
         if(strcmp(currentStudent -> matricula, matr)==0)
             return true;
-        currentStudent = currentStudent -> nextTeacher;
+        currentStudent = currentStudent -> nextStudent;
     }
 
     return false;
@@ -433,4 +433,28 @@ bool validateCpf(char cpf[])
         return false;
     }
     return true;
+}
+
+//FUNÇÕES DE TURMAS
+
+void createClass(char className[], Student *arrayStudents) {
+    FILE *classPtr;
+    Student *currentStudent = arrayStudents; 
+    int length = strlen(className) + 5;
+    char nameFile[length];
+    strcpy(nameFile, className);
+    strcat(nameFile, ".dat");
+    if ((classPtr = fopen(nameFile, "w")) == NULL) 
+    {
+        printf("Não foi possível acessar esse arquivo\n");
+    }
+    else
+    {
+        while (currentStudent != NULL)
+        {
+            fprintf(classPtr,"%s %s %d\n", currentStudent->name, currentStudent->matricula, 0);
+            currentStudent = currentStudent->nextStudent;
+        }
+        fclose(classPtr);
+    }
 }
