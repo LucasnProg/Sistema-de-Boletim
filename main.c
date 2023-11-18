@@ -72,11 +72,11 @@ int main()
 
     
 
-    //Teacher professor;
-    //int decision;
+    Teacher professor;
+    int decision;
     
     
-    /*
+    
     labelInicial:
     
         printf("====================================================================\n");
@@ -107,9 +107,10 @@ int main()
                 printf("\nDIGITE SUA SENHA:\n\n");
                 printf("====================================================================\n");
                 scanf("%s",professor.password);
-                goto passwordLabel;
+                // goto passwordLabel;
+                // Eduardo: tava em loop
             
-            bool login = loginTeacher(professor.cpf,professor.password,*teachersArray);
+            bool login = loginTeacher(professor.cpf,professor.password,teachersArray);
             if (login == NULL)
                 {
                     system("cls");
@@ -122,7 +123,7 @@ int main()
                 }
             else if (login == true)
                 {   
-                    Teacher logado = getCurrentTeacher(professor.cpf,*teachersArray);
+                    Teacher logado = getCurrentTeacher(professor.cpf,teachersArray);
                     system("cls");
                     printf("====================================================================\n");
                     printf("LOGADO COM SUCESSO! \nBEM VINDO!\n");
@@ -195,13 +196,13 @@ int main()
                 int matterDecision;
                 scanf("%d",&matterDecision);
                 if(matterDecision == 1)
-                    professor.matter = "math";
-                else if(matterDesicion == 2)
-                    professor.matter = "cience";
-                else if(matterDesicion == 3)
-                    professor.matter = "portuguese";
-                else if(matterDesicion == 4)
-                    professor.matter = "geograph";
+                    strcpy(professor.matter,"math");
+                else if(matterDecision == 2)
+                    strcpy(professor.matter,"cience");
+                else if(matterDecision == 3)
+                    strcpy(professor.matter,"portuguese");
+                else if(matterDecision == 4)
+                    strcpy(professor.matter,"geograph");
                 sleep(3);
                 system("cls");
                 printf("====================================================================\n");
@@ -211,11 +212,11 @@ int main()
                 system("cls");
             
             system("cls");
-            addTeacher(professor.name,professor.cpf,professor.password,professor.matter,*teachersArray);
+            addTeacher(professor.name,professor.cpf,professor.password,professor.matter,teachersArray);
             sleep(5);
             system("cls");
             goto labelInicial;
-        }*/
+        }
     else
     {
         system("cls");
