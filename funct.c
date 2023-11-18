@@ -318,10 +318,7 @@ Teacher getCurrentTeacher(char cpf[],  Teacher *arrayTeacher)
             strcpy(arrayTeacher->cpf,currentTeacher.cpf);
             strcpy(arrayTeacher->password,currentTeacher.password);
             strcpy(arrayTeacher->matter,currentTeacher.matter);
-            // strcpy(currentTeacher->name,arrayTeacher->name);
-            // strcpy(currentTeacher->cpf,arrayTeacher->cpf);
-            // strcpy(currentTeacher->password,arrayTeacher->password);
-            // strcpy(currentTeacher->matter,arrayTeacher->matter);
+            // corrigido
             return currentTeacher;
         }
         arrayTeacher = arrayTeacher->nextTeacher;  
