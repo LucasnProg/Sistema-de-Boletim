@@ -100,8 +100,9 @@ Student* addAluno(char novoName[], char newMat[], Student* arrayAlunos)
         Student *currentStudent = arrayAlunos;
         if(checkMatricula(currentStudent, newMat))
         {
-            printf("Esse aluno ja existe!");
-            return arrayAlunos;
+            // printf("Esse aluno ja existe!");
+            return false;
+            // return arrayAlunos;
         }
         else
         {
@@ -137,6 +138,8 @@ Student* removeAluno(char removeMat[], Student* arrayAlunos)
         {
             free(currentStudent);
             update_Students(arrayAlunos);
+            printf("matricula removida com sucesso!\n");
+
         }
         return arrayAlunos;
     }
@@ -148,6 +151,8 @@ Student* removeAluno(char removeMat[], Student* arrayAlunos)
                 currentStudent -> nextStudent = proxStudent -> nextStudent;
                 free(proxStudent);
                 update_Students(arrayAlunos);
+                printf("matricula removida com sucesso!\n");
+
                 return arrayAlunos;
             }
                 
@@ -267,7 +272,7 @@ Teacher* addTeacher(char name[], char cpf[], char password[],char matter[], Teac
     if (checkCPF(arrayTeachers, cpf) == true)
     {
         printf("RELATORIO DE ERRO:\n");
-        printf("    # Esse professor já está cadastrado no sistema.\n    FAÇA O LOGIN!\n");
+        printf("    # Esse professor ja esta cadastrado no sistema.\n    FAÇA O LOGIN!\n");
         
         return arrayTeachers; 
     }
