@@ -314,10 +314,14 @@ Teacher getCurrentTeacher(char cpf[],  Teacher *arrayTeacher)
     {
         if (strcmp(arrayTeacher->cpf,cpf) ==0)
         {
-            strcpy(currentTeacher->name,arrayTeacher->name);
-            strcpy(currentTeacher->cpf,arrayTeacher->cpf);
-            strcpy(currentTeacher->password,arrayTeacher->password);
-            strcpy(currentTeacher->matter,arrayTeacher->matter);
+            strcpy(arrayTeacher->name,currentTeacher.name);
+            strcpy(arrayTeacher->cpf,currentTeacher.cpf);
+            strcpy(arrayTeacher->password,currentTeacher.password);
+            strcpy(arrayTeacher->matter,currentTeacher.matter);
+            // strcpy(currentTeacher->name,arrayTeacher->name);
+            // strcpy(currentTeacher->cpf,arrayTeacher->cpf);
+            // strcpy(currentTeacher->password,arrayTeacher->password);
+            // strcpy(currentTeacher->matter,arrayTeacher->matter);
             return currentTeacher;
         }
         arrayTeacher = arrayTeacher->nextTeacher;  
@@ -583,7 +587,7 @@ Boletim* getBoletim()
     return boletimArray;
 }
 
-Boletim* showBoletim(char matricula[], Boletim *arrayBoletim,)
+Boletim* showBoletim(char matricula[], Boletim *arrayBoletim)
 {
 
     Boletim *currentBoletim = arrayBoletim;
