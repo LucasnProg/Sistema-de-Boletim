@@ -10,8 +10,8 @@ int main()
 {
     setlocale(LC_ALL, "");
 
-    /*Teacher *teachersArray = get_Teachers();
-    teachersArray = addTeacher("Lucas","12345678910","Teste123","math",teachersArray);
+    Teacher *teachersArray = get_Teachers();
+    /*teachersArray = addTeacher("Lucas","12345678910","Teste123","math",teachersArray);
     teachersArray = addTeacher("Luis","12345678911","Teste1234","cience",teachersArray);
     teachersArray = addTeacher("Eduardo","12345678912","Teste1235","portuguese",teachersArray);
     teachersArray = addTeacher("Gabriel","12345678913","Teste125","geograph",teachersArray);
@@ -44,8 +44,9 @@ int main()
 
     generateBoletim(studentsArray);
     Boletim *arrayBoletim = getBoletim();
+    showBoletim("231080421", arrayBoletim);
 
-    arrayBoletim = addNota("231080421", 10,"geograph",arrayBoletim);
+    /*arrayBoletim = addNota("231080421", 10,"geograph",arrayBoletim);
 
     Boletim *currentBoletim = arrayBoletim;
 
@@ -54,7 +55,8 @@ int main()
 
         // Avança para o próximo boletim na lista
         currentBoletim = currentBoletim->nextMat;
-    }
+    }*/
+    
     
     //printf("\nALTERADO:\n");
     //studentsArray = addAluno("ALBERTO", "231040444",10.0, studentsArray);
@@ -105,43 +107,42 @@ int main()
                 printf("\nDIGITE SUA SENHA:\n\n");
                 printf("====================================================================\n");
                 scanf("%s",professor.password);
-
-            if(validatePassword(professor.password) == false)
-                {
-                    sleep(5);
-                    goto passwordLabel;
-                }
-            bool login = loginTeacher(professor.cpf,professor.password);
+                goto passwordLabel;
+            
+            bool login = loginTeacher(professor.cpf,professor.password,*teachersArray);
             if (login == NULL)
                 {
                     system("cls");
                     printf("====================================================================\n");
-                    printf("\nPROFESSOR NÃO CADASTRADO NO SISTEMA\n\n");
+                    printf("\nHOUVE UM ERRO! IMPOSSÍVEL ACESSAR BANCO DE PROFESSORES\n\n");
                     printf("====================================================================\n");
                     sleep(5);
                     system("cls");
                     goto labelInicial;
                 }
             else if (login == true)
-                {
+                {   
+                    Teacher logado = getCurrentTeacher(professor.cpf,*teachersArray);
                     system("cls");
                     printf("====================================================================\n");
                     printf("LOGADO COM SUCESSO! \nBEM VINDO!\n");
                     printf("====================================================================\n");
                     sleep(5);
                     //system("cls");
-                    //goto mainMenu;
+                    //goto labelLogado;
                 }
             else if (login == false)
                 {
                     system("cls");
                     printf("====================================================================\n");
-                    printf("\nSENHA INCORRETA, TENTE NOVAMENTE!\n\n");
+                    printf("\nCPF OU SENHA INVÁLIDOS\n\n");
                     printf("====================================================================\n");
                     sleep(5);
                     system("cls");
                     goto labelInicial;
                 }
+
+
         }
         
         
@@ -183,13 +184,54 @@ int main()
                         sleep(5);
                         goto passwordLabelCadastro;
                     }
+
+            matterLabelCadastro:
+
+                system("cls");
+                printf("====================================================================\n");
+                printf("\nINFORME A DISCIPLINA MINISTRADA:\n\n");
+                printf("1-MATEMÁTICA\n2-CIÊNCIAS\n3-PORTUGUÊS\n4-GEOGRAFIA\n");
+                printf("====================================================================\n");
+                int matterDecision;
+                scanf("%d",&matterDecision);
+                if(matterDecision == 1)
+                    professor.matter = "math";
+                else if(matterDesicion == 2)
+                    professor.matter = "cience";
+                else if(matterDesicion == 3)
+                    professor.matter = "portuguese";
+                else if(matterDesicion == 4)
+                    professor.matter = "geograph";
+                sleep(3);
+                system("cls");
+                printf("====================================================================\n");
+                printf("\nPROFESSOR CADASTRADO COM SUCESSO!\n");
+                printf("====================================================================\n");
+                sleep(5);
+                system("cls");
             
             system("cls");
-            addTeacher(professor.name,professor.cpf,professor.password);
+            addTeacher(professor.name,professor.cpf,professor.password,professor.matter,*teachersArray);
             sleep(5);
             system("cls");
             goto labelInicial;
         }*/
+    else
+    {
+        system("cls");
+        printf("====================================================================\n");
+        printf("\nDECISÃO INVÁLIDA\n");
+        printf("====================================================================\n");
+        system("cls");
+        goto labelInicial;
+    }
+
+    labelLogado:
+
+        printf("====================================================================\n");
+        printf("\n   O QUE DESEJA FAZER? \n \n\n");
+        printf("====================================================================\n");
+        scanf("%d",&decision);
     
     return 0;
 }

@@ -81,7 +81,7 @@ bool checkMatricula(Student *arrayStudent, char matr[])
 
     return false;
 }
-/*
+
 Student* addAluno(char novoName[], char newMat[], Student* arrayAlunos)
 {
     Student* newStudent = (Student*)malloc(sizeof(Student));
@@ -119,7 +119,7 @@ Student* addAluno(char novoName[], char newMat[], Student* arrayAlunos)
             }
         }
     }    
-}*/
+}
 
 Student* removeAluno(char removeMat[], Student* arrayAlunos)
 {
@@ -229,7 +229,7 @@ void update_Teachers(Teacher *teachersArray)
     FILE *teacherFilePtr;
     Teacher* currentTeacher = teachersArray;
 
-    if ((teacherFilePtr = fopen("teachers.dat", "w")) == NULL)
+    if((teacherFilePtr = fopen("teachers.dat", "w")) == NULL)
     {
         printf("Não foi possivel acessar os dados dos professores!\n");
     }
@@ -261,7 +261,7 @@ bool checkCPF(Teacher *arrayTeachers, char cpf[])
 
     return false;
 }
-/*
+
 Teacher* addTeacher(char name[], char cpf[], char password[],char matter[], Teacher *arrayTeachers)
 {
     if (checkCPF(arrayTeachers, cpf) == true)
@@ -305,7 +305,24 @@ Teacher* addTeacher(char name[], char cpf[], char password[],char matter[], Teac
         }
     }
 
-}*/
+}
+
+Teacher getCurrentTeacher(char cpf[],  Teacher *arrayTeacher)
+{
+    Teacher currentTeacher;
+    while (arrayTeacher != NULL)
+    {
+        if (strcmp(arrayTeacher->cpf,cpf) ==0)
+        {
+            strcpy(currentTeacher->name,arrayTeacher->name);
+            strcpy(currentTeacher->cpf,arrayTeacher->cpf);
+            strcpy(currentTeacher->password,arrayTeacher->password);
+            strcpy(currentTeacher->matter,arrayTeacher->matter);
+            return currentTeacher;
+        }
+        arrayTeacher = arrayTeacher->nextTeacher;  
+    }   
+}
 
 bool loginTeacher(char cpf[], char password[], Teacher *arrayTeacher)
 {
@@ -358,7 +375,7 @@ Teacher* removeTeacher(char removeCPF[], Teacher* arrayTeacher)
     printf("Nao ha professor com esse cpf\n");
     return arrayTeacher;
 }
-/*
+
 bool validatePassword(char password[])
 {
     int has_digit = 0, has_upper = 0, has_lower = 0, has_space = 0;
@@ -433,7 +450,7 @@ bool validateCpf(char cpf[])
         return false;
     }
     return true;
-}*/
+}
 
 //FUNÇÕES DE BOLETIM
 
@@ -564,6 +581,26 @@ Boletim* getBoletim()
     }
 
     return boletimArray;
+}
+
+Boletim* showBoletim(char matricula[], Boletim *arrayBoletim,)
+{
+
+    Boletim *currentBoletim = arrayBoletim;
+    float notaMath, notaCience, notaPortuguese, notaGeograph;
+
+    while(currentBoletim != NULL)
+    {
+        if(strcmp(currentBoletim->matricula, matricula) == 0)
+        {
+            notaMath = currentBoletim->math;
+            notaCience = currentBoletim->cience;
+            notaPortuguese = currentBoletim->portuguese;
+            notaGeograph = currentBoletim->geograph;
+            printf("matematica: %.2f\nciencias: %.2f\nportugues: %.2f\ngeografia: %.2f\n",notaMath, notaCience, notaPortuguese, notaGeograph);
+        }
+        currentBoletim = currentBoletim->nextMat;
+    }
 }
 
 /*
