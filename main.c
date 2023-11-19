@@ -26,10 +26,12 @@ int main()
     }*/
 
     Student *studentsArray = get_students();
-    // Student* currentStudent = studentsArray;
+    //Student* currentStudent = studentsArray;
 
+    
+    //studentsArray = addAluno("Pedro","231080315",studentsArray);
+    //studentsArray = removeAluno("231080315",studentsArray);
     /*
-    studentsArray = addAluno("Eduardo","231080421",studentsArray);
     studentsArray = addAluno("Lucas","222080434",studentsArray);
     studentsArray = addAluno("Luis","231080434",studentsArray);
 
@@ -41,6 +43,8 @@ int main()
 
     Boletim *arrayBoletim = getBoletim();
 
+    //arrayBoletim = removeAlunoBoletim("231080315",arrayBoletim);
+    //arrayBoletim = addAlunoBoletim("231080315",arrayBoletim);
     /*arrayBoletim = addNota("231080421", 10,"geograph",arrayBoletim);
 
     Boletim *currentBoletim = arrayBoletim;
@@ -271,7 +275,8 @@ labelLogado:
         scanf("%s", aluno.matricula);
         aluno.matricula[strcspn(aluno.matricula, "\n")] = '\0';
 
-        studentsArray = addAluno(aluno.name, aluno.matricula, studentsArray, arrayBoletim);
+        studentsArray = addAluno(aluno.name, aluno.matricula, studentsArray);
+        arrayBoletim = addAlunoBoletim(aluno.matricula, arrayBoletim);
 
         if (studentsArray == false)
         {
@@ -306,6 +311,7 @@ labelLogado:
         scanf("%s", matricula);
 
         studentsArray = removeAluno(matricula, studentsArray);
+        arrayBoletim = removeAlunoBoletim(aluno.matricula, arrayBoletim);
     }
     else if (logdecision == 3)
     {

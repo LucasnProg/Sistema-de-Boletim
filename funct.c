@@ -8,7 +8,6 @@
 
 //PROTOTÍPOS
 
-void refreshBoletim(Student *students, Boletim *arrayBoletim);
 
 //FUNÇÕES ALUNOS.
 
@@ -86,7 +85,7 @@ bool checkMatricula(Student *arrayStudent, char matr[])
     return false;
 }
 
-Student* addAluno(char novoName[], char newMat[], Student* arrayAlunos, Boletim* arrayBoletim)
+Student* addAluno(char novoName[], char newMat[], Student* arrayAlunos)
 {
     Student* newStudent = (Student*)malloc(sizeof(Student));
     newStudent->nextStudent = NULL;
@@ -116,7 +115,6 @@ Student* addAluno(char novoName[], char newMat[], Student* arrayAlunos, Boletim*
                     {
                         
                         currentStudent -> nextStudent = newStudent;
-                        refreshBoletim(arrayAlunos, arrayBoletim);
                         update_Students(arrayAlunos);
                         return arrayAlunos;
                     }
@@ -127,7 +125,7 @@ Student* addAluno(char novoName[], char newMat[], Student* arrayAlunos, Boletim*
     }    
 }
 
-Student* removeAluno(char removeMat[], Student* arrayAlunos,Boletim* arrayBoletim)
+Student* removeAluno(char removeMat[], Student* arrayAlunos)
 {
     Student *currentStudent = arrayAlunos;
     Student *proxStudent = arrayAlunos;
@@ -533,6 +531,82 @@ Boletim* addNota(char matricula[], float nota,char matter[], Boletim *arrayBolet
 
 }
 
+Boletim* addAlunoBoletim(char newMat[], Boletim* arrayBoletim)
+{
+    Boletim* newStudent = (Boletim*)malloc(sizeof(Boletim));
+    newStudent->nextMat = NULL;
+
+    strcpy(newStudent->matricula, newMat);
+    newStudent->math = 0.0;
+    newStudent->cience = 0.0;
+    newStudent->portuguese = 0.0;
+    newStudent->geograph = 0.0;
+
+    
+    if(arrayBoletim == NULL)
+    {
+        arrayBoletim = newStudent;
+    }
+    
+    else
+    {
+        Boletim *currentBol = arrayBoletim;
+
+            while(currentBol != NULL)
+            {
+                if(currentBol->nextMat == NULL)
+                {                    
+                
+                    currentBol -> nextMat = newStudent;
+                    updateBoletim(arrayBoletim);
+                    return arrayBoletim;
+                }
+                
+            currentBol = currentBol->nextMat;
+        }
+    }    
+}
+
+Boletim* removeAlunoBoletim(char removeMat[], Boletim* arrayBoletim)
+{
+    Boletim *currentBol = arrayBoletim;
+    Boletim *proxBol = arrayBoletim;
+
+    if(arrayBoletim==NULL)
+    {
+        printf("Nao existem alunos para serem removidos");
+        return arrayBoletim;
+    }
+    else if(currentBol->nextMat == NULL)
+    {
+        if(strcmp(currentBol->matricula,removeMat) == 0)
+        {
+            free(currentBol);
+            updateBoletim(arrayBoletim);
+            printf("matricula removida com sucesso!\n");
+
+        }
+        return arrayBoletim;
+    }
+    proxBol = proxBol->nextMat;
+    while(proxBol != NULL)
+    {
+        if(strcmp(proxBol->matricula,removeMat) == 0)
+            {
+                currentBol -> nextMat = proxBol -> nextMat;
+                free(proxBol);
+                updateBoletim(arrayBoletim);
+                printf("matricula removida com sucesso!\n");
+
+                return arrayBoletim;
+            }
+                
+        currentBol = currentBol -> nextMat;
+        proxBol = proxBol -> nextMat;
+    }
+    printf("Nao ha aluno com essa matricula\n");
+    return arrayBoletim;
+}
 
 void generateBoletim(Student *students) 
 {
@@ -551,25 +625,6 @@ void generateBoletim(Student *students)
     fclose(boletimPtr);
 }
 
-void refreshBoletim(Student *students, Boletim *arrayBoletim) 
-{
-    FILE *boletimPtr;
-
-    if ((boletimPtr = fopen("boletim.dat", "a")) == NULL) {
-        printf("Ocorreu algum problema ao acessar o boletim\n");
-        return;
-    }
-
-    while (students != NULL) {
-        if(students->nextStudent == NULL)
-        {
-            fprintf(boletimPtr, "%s %.2f %.2f %.2f %.2f\n", students->matricula, 0.0, 0.0, 0.0, 0.0);
-        }
-        students = students->nextStudent;
-    }
-    updateBoletim(arrayBoletim);
-    fclose(boletimPtr);
-}
 
 Boletim* getBoletim()
 {
