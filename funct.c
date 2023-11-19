@@ -8,8 +8,7 @@
 
 //PROTOTÍPOS
 
-void refreshBoletim(Student *students);
-Boletim getBoletim();
+void refreshBoletim(Student *students, Boletim *arrayBoletim);
 
 //FUNÇÕES ALUNOS.
 
@@ -87,7 +86,7 @@ bool checkMatricula(Student *arrayStudent, char matr[])
     return false;
 }
 
-Student* addAluno(char novoName[], char newMat[], Student* arrayAlunos)
+Student* addAluno(char novoName[], char newMat[], Student* arrayAlunos, Boletim* arrayBoletim)
 {
     Student* newStudent = (Student*)malloc(sizeof(Student));
     newStudent->nextStudent = NULL;
@@ -117,7 +116,7 @@ Student* addAluno(char novoName[], char newMat[], Student* arrayAlunos)
                     {
                         
                         currentStudent -> nextStudent = newStudent;
-                        refreshBoletim(arrayAlunos);
+                        refreshBoletim(arrayAlunos, arrayBoletim);
                         update_Students(arrayAlunos);
                         return arrayAlunos;
                     }
@@ -128,7 +127,7 @@ Student* addAluno(char novoName[], char newMat[], Student* arrayAlunos)
     }    
 }
 
-Student* removeAluno(char removeMat[], Student* arrayAlunos)
+Student* removeAluno(char removeMat[], Student* arrayAlunos,Boletim* arrayBoletim)
 {
     Student *currentStudent = arrayAlunos;
     Student *proxStudent = arrayAlunos;
@@ -552,7 +551,7 @@ void generateBoletim(Student *students)
     fclose(boletimPtr);
 }
 
-void refreshBoletim(Student *students) 
+void refreshBoletim(Student *students, Boletim *arrayBoletim) 
 {
     FILE *boletimPtr;
 
@@ -568,9 +567,7 @@ void refreshBoletim(Student *students)
         }
         students = students->nextStudent;
     }
-    Boletim *newBol = getBoletim();
-    updateBoletim(newBol);
-
+    updateBoletim(arrayBoletim);
     fclose(boletimPtr);
 }
 

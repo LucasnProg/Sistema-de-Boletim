@@ -271,7 +271,7 @@ labelLogado:
         scanf("%s", aluno.matricula);
         aluno.matricula[strcspn(aluno.matricula, "\n")] = '\0';
 
-        studentsArray = addAluno(aluno.name, aluno.matricula, studentsArray);
+        studentsArray = addAluno(aluno.name, aluno.matricula, studentsArray, arrayBoletim);
 
         if (studentsArray == false)
         {
