@@ -11,6 +11,7 @@ int main()
     setlocale(LC_ALL, "");
 
     Teacher *teachersArray = get_Teachers();
+    Teacher logado;
     /*teachersArray = addTeacher("Lucas","12345678910","Teste123","math",teachersArray);
     teachersArray = addTeacher("Luis","12345678911","Teste1234","cience",teachersArray);
     teachersArray = addTeacher("Eduardo","12345678912","Teste1235","portuguese",teachersArray);
@@ -38,7 +39,6 @@ int main()
     currentStudent = currentStudent->nextStudent;
     }*/
 
-    generateBoletim(studentsArray);
     Boletim *arrayBoletim = getBoletim();
 
     /*arrayBoletim = addNota("231080421", 10,"geograph",arrayBoletim);
@@ -68,12 +68,22 @@ int main()
 
 labelInicial:
 
-    printf("====================================================================\n");
-    printf("\n   VOCE DESEJE LOGAR OU CADASTRAR UM NOVO PROFESSOR? \n   Digite 1 para Logar ou 2 para Cadastrar.\n\n");
+    printf("====================================================================\n\n");
+    printf("OQUE VOCE DESEJA FAZER? \n");
+    printf("\n0-SAIR\n1-LOGAR\n2-CADASTRAR\n\n");
     printf("====================================================================\n");
     scanf("%d", &decision);
 
-    if (decision == 1)
+    if(decision==0){
+        system("cls");
+        printf("====================================================================\n");
+        printf("\nSAINDO DO PROGRAMA\n\n");
+        printf("====================================================================\n");
+        sleep(3);
+        system("cls");
+        return 0;
+    }
+    else if (decision == 1)
     {
     cpfLabel:
         system("cls");
@@ -89,15 +99,11 @@ labelInicial:
             goto cpfLabel;
         }
 
-    passwordLabel:
-
         system("cls");
         printf("====================================================================\n");
         printf("\nDIGITE SUA SENHA:\n\n");
         printf("====================================================================\n");
         scanf("%s", professor.password);
-        // goto passwordLabel;
-        // Eduardo: tava em loop
 
         bool login = loginTeacher(professor.cpf, professor.password, teachersArray);
         if (login == NULL)
@@ -112,12 +118,13 @@ labelInicial:
         }
         else if (login == true)
         {
-            Teacher logado = getCurrentTeacher(professor.cpf, teachersArray);
+            logado = getCurrentTeacher(professor.cpf, teachersArray);
+            
             system("cls");
             printf("====================================================================\n");
             printf("LOGADO COM SUCESSO! \nBEM VINDO!\n");
             printf("====================================================================\n");
-            sleep(5);
+            sleep(3);
             system("cls");
             goto labelLogado;
         }
@@ -199,49 +206,57 @@ labelInicial:
 
         system("cls");
         addTeacher(professor.name, professor.cpf, professor.password, professor.matter, teachersArray);
-        sleep(5);
-        system("cls");
-        goto labelInicial;
-    }
-    else
-    {
-        system("cls");
-        printf("====================================================================\n");
-        printf("\nDECISÃO INVÁLIDA\n");
-        printf("====================================================================\n");
         sleep(3);
         system("cls");
         goto labelInicial;
     }
 
+    else
+    {
+        system("cls");
+        printf("====================================================================\n");
+        printf("\nDECISAO INVALIDA\n\n");
+        printf("====================================================================\n");
+        sleep(3);
+        system("cls");
+        goto labelInicial;
+    }
     int logdecision;
 
 labelLogado:
     printf("====================================================================\n");
-    printf("\n   O QUE DESEJA FAZER? \n \n\n");
+    printf("\nO QUE DESEJA FAZER? \n\n");
     printf("====================================================================\n");
-    printf("1-ADICIONAR ALUNO\n2-REMOVER ALUNO\n3-ADICIONAR NOTA\n");
+    printf("0-DESLOGAR\n1-ADICIONAR ALUNO\n2-REMOVER ALUNO\n3-ADICIONAR NOTA\n");
     printf("====================================================================\n");
-
     scanf("%d", &logdecision);
+    system("cls");
 
-    while (logdecision < 1 || logdecision > 3)
+    while (logdecision < 0 || logdecision > 3)
     {
         system("cls");
         printf("====================================================================\n");
-        printf("\nDECISÃO INVÁLIDA\n");
+        printf("\nDECISAO INVALIDA\n\n");
         printf("====================================================================\n");
         sleep(3);
         system("cls");
         goto labelLogado;
     }
 
-    if (logdecision == 1)
+    if (logdecision==0){
+        system("cls");
+        printf("====================================================================\n");
+        printf("DESLOGANDO\n");
+        printf("====================================================================\n");
+        sleep(2);
+        goto labelInicial;
+    }
+    else if (logdecision == 1)
     {
     Student aluno;
     labelCadAluno:
         system("cls");
-        printf("=========================== CADASTRAR ALUNO ============================\n");
+        printf("========================= CADASTRAR ALUNO ============================\n");
         printf("====================================================================\n");
         printf("\nDIGITE O NOME DO ALUNO:\n\n");
         printf("====================================================================\n");
@@ -249,7 +264,7 @@ labelLogado:
         aluno.name[strcspn(aluno.name, "\n")] = '\0';
 
         system("cls");
-        printf("=========================== CADASTRAR ALUNO ============================\n");
+        printf("========================= CADASTRAR ALUNO ============================\n");
         printf("====================================================================\n");
         printf("\nDIGITE A MATRICULA DO ALUNO:\n\n");
         printf("====================================================================\n");
@@ -275,24 +290,49 @@ labelLogado:
             printf("====================================================================\n");
             printf("\nALUNO CADASTRADO COM SUCESSO!\n");
             printf("====================================================================\n");
-            sleep(5);
+            sleep(3);
             system("cls");
             goto labelLogado;
         }
     }
     else if (logdecision == 2)
     {
-        Student remaluno;
-
+        char matricula[10];
         system("cls");
-        printf("=========================== REMOVER ALUNO ============================\n");
+        printf("=========================== REMOVER ALUNO ==========================\n");
         printf("====================================================================\n");
         printf("\nDIGITE A MATRICULA DO ALUNO:\n\n");
         printf("====================================================================\n");
-        scanf("%s", remaluno.matricula);
-        remaluno.matricula[strcspn(remaluno.matricula, "\n")] = '\0';
+        scanf("%s", matricula);
 
-        studentsArray = removeAluno(remaluno.matricula, studentsArray);
+        studentsArray = removeAluno(matricula, studentsArray);
+    }
+    else if (logdecision == 3)
+    {
+        char matricula[10];
+        float newNota;
+        system("cls");
+        printf("========================== ADICIONAR NOTA ==========================\n");
+        printf("====================================================================\n");
+        printf("\nDIGITE A MATRICULA DO ALUNO:\n\n");
+        printf("====================================================================\n");
+        scanf("%s", &matricula);
+        sleep(2);
+        system("cls");
+        printf("====================================================================\n");
+        printf("\nDIGITE A NOTA DO ALUNO:\n\n");
+        printf("====================================================================\n");
+        scanf("%f", &newNota);
+        sleep(3);
+        system("cls");
+        addNota(matricula, newNota, logado.matter, arrayBoletim);
+        printf("%s\n",logado.matter);
+        printf("====================================================================\n");
+        printf("\nBOLETIM DO ALUNO:\n\n");
+        printf("====================================================================\n");
+        showBoletim(matricula, arrayBoletim);
+        sleep(10);
+        
     }
 
     goto labelLogado;

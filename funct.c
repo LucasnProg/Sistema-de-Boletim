@@ -6,6 +6,11 @@
 #include <string.h>
 #include <locale.h>
 
+//PROTOTÍPOS
+
+void refreshBoletim(Student *students);
+Boletim getBoletim();
+
 //FUNÇÕES ALUNOS.
 
 Student* get_students()
@@ -112,6 +117,7 @@ Student* addAluno(char novoName[], char newMat[], Student* arrayAlunos)
                     {
                         
                         currentStudent -> nextStudent = newStudent;
+                        refreshBoletim(arrayAlunos);
                         update_Students(arrayAlunos);
                         return arrayAlunos;
                     }
@@ -319,10 +325,11 @@ Teacher getCurrentTeacher(char cpf[],  Teacher *arrayTeacher)
     {
         if (strcmp(arrayTeacher->cpf,cpf) ==0)
         {
-            strcpy(arrayTeacher->name,currentTeacher.name);
-            strcpy(arrayTeacher->cpf,currentTeacher.cpf);
-            strcpy(arrayTeacher->password,currentTeacher.password);
-            strcpy(arrayTeacher->matter,currentTeacher.matter);
+            strcpy(currentTeacher.name,arrayTeacher->name);
+            strcpy(currentTeacher.cpf,arrayTeacher->cpf);
+            strcpy(currentTeacher.password,arrayTeacher->password);
+            strcpy(currentTeacher.matter,arrayTeacher->matter);
+            currentTeacher.nextTeacher = NULL;
             // corrigido
             return currentTeacher;
         }
@@ -499,8 +506,7 @@ void updateBoletim(Boletim *boletim)
             currentBol = currentBol->nextMat;
         }
         fclose(BolFilePtr);
-    }
-    
+    } 
 }
 
 Boletim* addNota(char matricula[], float nota,char matter[], Boletim *arrayBoletim)
@@ -523,13 +529,14 @@ Boletim* addNota(char matricula[], float nota,char matter[], Boletim *arrayBolet
         currentBoletim = currentBoletim->nextMat;
     }
 
-        updateBoletim(arrayBoletim);
-        return (arrayBoletim);
+    updateBoletim(arrayBoletim);
+    return (arrayBoletim);
 
 }
 
 
-void generateBoletim(Student *students) {
+void generateBoletim(Student *students) 
+{
     FILE *boletimPtr;
 
     if ((boletimPtr = fopen("boletim.dat", "w")) == NULL) {
@@ -541,6 +548,28 @@ void generateBoletim(Student *students) {
         fprintf(boletimPtr, "%s %.2f %.2f %.2f %.2f\n", students->matricula, 0.0, 0.0, 0.0, 0.0);
         students = students->nextStudent;
     }
+
+    fclose(boletimPtr);
+}
+
+void refreshBoletim(Student *students) 
+{
+    FILE *boletimPtr;
+
+    if ((boletimPtr = fopen("boletim.dat", "a")) == NULL) {
+        printf("Ocorreu algum problema ao acessar o boletim\n");
+        return;
+    }
+
+    while (students != NULL) {
+        if(students->nextStudent == NULL)
+        {
+            fprintf(boletimPtr, "%s %.2f %.2f %.2f %.2f\n", students->matricula, 0.0, 0.0, 0.0, 0.0);
+        }
+        students = students->nextStudent;
+    }
+    Boletim *newBol = getBoletim();
+    updateBoletim(newBol);
 
     fclose(boletimPtr);
 }
