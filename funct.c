@@ -531,6 +531,20 @@ Boletim* addNota(char matricula[], float nota,char matter[], Boletim *arrayBolet
 
 }
 
+bool checkMatriculaBol(Boletim *arrayBol, char matr[])
+{
+    Boletim* currentBoletim = arrayBol;
+
+    while (currentBoletim != NULL) 
+    {
+        if(strcmp(currentBoletim -> matricula, matr)==0)
+            return true;
+        currentBoletim = currentBoletim -> nextMat;
+    }
+
+    return false;
+}
+
 Boletim* addAlunoBoletim(char newMat[], Boletim* arrayBoletim)
 {
     Boletim* newStudent = (Boletim*)malloc(sizeof(Boletim));
@@ -552,6 +566,12 @@ Boletim* addAlunoBoletim(char newMat[], Boletim* arrayBoletim)
     {
         Boletim *currentBol = arrayBoletim;
 
+        if(checkMatriculaBol(currentBol, newMat))
+        {
+
+            return false;
+        }
+        else{
             while(currentBol != NULL)
             {
                 if(currentBol->nextMat == NULL)
@@ -563,6 +583,7 @@ Boletim* addAlunoBoletim(char newMat[], Boletim* arrayBoletim)
                 }
                 
             currentBol = currentBol->nextMat;
+            }
         }
     }    
 }
