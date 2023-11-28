@@ -50,7 +50,12 @@ labelInicial:
 
         if (validateCpf(professor.cpf) == false)
         {
-            sleep(5);
+            system("cls");
+            printf("====================================================================\n");
+            printf("\nDIGITE UM CPF VALIDO COM 11 NUMEROS\n\n");
+            printf("====================================================================\n");
+            sleep(3);
+            system("cls");
             goto cpfLabel;
         }
 
@@ -67,7 +72,7 @@ labelInicial:
             printf("====================================================================\n");
             printf("\nHOUVE UM ERRO! IMPOSSIVEL ACESSAR BANCO DE PROFESSORES\n\n");
             printf("====================================================================\n");
-            sleep(5);
+            sleep(3);
             system("cls");
             goto labelInicial;
         }
@@ -89,7 +94,7 @@ labelInicial:
             printf("====================================================================\n");
             printf("\nCPF OU SENHA INVÁLIDOS\n\n");
             printf("====================================================================\n");
-            sleep(5);
+            sleep(3);
             system("cls");
             goto labelInicial;
         }
@@ -117,7 +122,12 @@ labelInicial:
 
         if (validateCpf(professor.cpf) == false)
         {
-            sleep(5);
+            system("cls");
+            printf("====================================================================\n");
+            printf("\nDIGITE UM CPF VALIDO COM 11 NUMEROS\n\n");
+            printf("====================================================================\n");
+            sleep(3);
+            system("cls");
             goto cpfLabelCadastro;
         }
 
@@ -130,8 +140,22 @@ labelInicial:
         scanf("%s", professor.password);
         if (validatePassword(professor.password) == false)
         {
-            sleep(5);
+            system("cls");
+            printf("====================================================================\n");
+            printf("\nSENHA INVALIDA, PRECISA POSSUIR:\n\t - NO MINIMO 8 DIGITOS\n\t - CARACTERES MAIUSCULOS\n\t - CARACTERES MINUSCULOS\n\t - NAO PODE POSSUIR ESPACOS\n\n");
+            printf("====================================================================\n");
+            sleep(3);
+            system("cls");
             goto passwordLabelCadastro;
+        }
+        else
+        {
+            system("cls");
+            printf("====================================================================\n");
+            printf("\nSENHA VALIDA\n\n");
+            printf("====================================================================\n");
+            sleep(3);
+            system("cls");
         }
 
     matterLabelCadastro:
@@ -167,7 +191,7 @@ labelInicial:
         printf("====================================================================\n");
         printf("\nPROFESSOR CADASTRADO COM SUCESSO!\n\n");
         printf("====================================================================\n");
-        sleep(5);
+        sleep(3);
         system("cls");
 
         addTeacher(professor.name, professor.cpf, professor.password, professor.matter, teachersArray);
@@ -214,7 +238,7 @@ labelLogado:
     {
         system("cls");
         printf("====================================================================\n");
-        printf("DESLOGANDO\n");
+        printf("DESLOGANDO...\n");
         printf("====================================================================\n");
         sleep(2);
         goto labelInicial;
@@ -241,7 +265,12 @@ labelLogado:
 
         if (validateMatricula(aluno.matricula) == false)
         {
-            sleep(5);
+            system("cls");
+            printf("====================================================================\n");
+            printf("\nDIGITE UMA MATRICULA VALIDA COM 9 NUMEROS! \n");
+            printf("====================================================================\n");
+            sleep(3);
+            system("cls");
             goto labelCadAluno;
         }
 
@@ -348,7 +377,6 @@ labelLogado:
             }
             else
             {
-                sleep(2);
                 system("cls");
                 printf("====================================================================\n");
                 printf("\nDIGITE A NOTA DO ALUNO:\n\n");

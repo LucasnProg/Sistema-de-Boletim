@@ -127,12 +127,10 @@ bool validateMatricula(char matricula[])
     }
     if (strlen(matricula) != 9)
     {
-        printf("DIGITE UMA MATRÍCULA VÁLIDA, COM 9 DIGITOS!");
         return false;
     }
     else if (notDigit != 0)
     {
-        printf("DIGITE UMA MATRÍCULA VÁLIDO, APENAS NÚMEROS!");
         return false;
     }
     return true;
@@ -283,7 +281,6 @@ void update_Teachers(Teacher *teachersArray)
     if ((teacherFilePtr = fopen("teachers.dat", "w")) == NULL)
     {
 
-        printf("Entrou no if do update_Teachers!\n");
         printf("Não foi possivel acessar os dados dos professores!\n");
     }
     else
@@ -318,8 +315,12 @@ Teacher *addTeacher(char name[], char cpf[], char password[], char matter[], Tea
 {
     if (checkCPF(arrayTeachers, cpf) == true)
     {
-        printf("RELATORIO DE ERRO:\n");
-        printf("    # Esse professor ja esta cadastrado no sistema.\n    FAÇA O LOGIN!\n");
+        system("cls");
+        printf("====================================================================\n");
+        printf("\nESSE PROFESSOR JA ESTA CADASTRADO NO SISTEMA, FAÇA O LOGIN!\n\n");
+        printf("====================================================================\n");
+        sleep(3);
+        system("cls");
 
         return arrayTeachers;
     }
@@ -397,7 +398,12 @@ Teacher *removeTeacher(char removeCPF[], Teacher *arrayTeacher)
 
     if (arrayTeacher == NULL)
     {
-        printf("Nao existem professores para serem removidos");
+        system("cls");
+        printf("====================================================================\n");
+        printf("\nNAO EXISTEM PROFESSORES PARA SEREM REMOVIDOS!\n\n");
+        printf("====================================================================\n");
+        sleep(3);
+        system("cls");
         return arrayTeacher;
     }
     else if (currentTeacher->nextTeacher == NULL)
@@ -423,7 +429,12 @@ Teacher *removeTeacher(char removeCPF[], Teacher *arrayTeacher)
         currentTeacher = currentTeacher->nextTeacher;
         proxTeacher = proxTeacher->nextTeacher;
     }
-    printf("Nao ha professor com esse cpf\n");
+    system("cls");
+    printf("====================================================================\n");
+    printf("\nNAO HA PROFESSOR COM ESSE CPF\n\n");
+    printf("====================================================================\n");
+    sleep(3);
+    system("cls");
     return arrayTeacher;
 }
 
@@ -451,32 +462,26 @@ bool validatePassword(char password[])
     }
     if (strlen(password) < 8)
     {
-        printf("Senha Inválida!\nTamanho mínimo da senha: 8\n");
         return false;
     }
     else if (has_digit == 0)
     {
-        printf("Senha Inválida!\nA senha não possui digitos\n");
         return false;
     }
     else if (has_upper == 0)
     {
-        printf("Senha Inválida!\nA senha não possui caracteres maiusculos\n");
         return false;
     }
     else if (has_lower == 0)
     {
-        printf("Senha Inválida!\nA senha não possui caracteres minusculos\n");
         return false;
     }
     else if (has_space != 0)
     {
-        printf("Senha Inválida!\nA senha não pode possuir espaços\n");
         return false;
     }
     else
-        printf("Senha válida\n");
-    return true;
+        return true;
 }
 
 bool validateCpf(char cpf[])
@@ -492,12 +497,10 @@ bool validateCpf(char cpf[])
     }
     if (strlen(cpf) != 11)
     {
-        printf("DIGITE UM CPF VÁLIDO, COM 11 DIGITOS!");
         return false;
     }
     else if (notDigit != 0)
     {
-        printf("DIGITE UM CPF VÁLIDO, APENAS NÚMEROS!");
         return false;
     }
     return true;
