@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <locale.h>
 #include "structs.h"
-#include "funct.c"
+#include "functions.c"
 
 int main()
 {
