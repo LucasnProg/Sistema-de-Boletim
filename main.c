@@ -314,7 +314,6 @@ labelLogado:
                 sleep(3);
                 system("cls");
             }
-            // colocar verificação se removeu ou nao
         }
     }
     else if (logdecision == 3)
