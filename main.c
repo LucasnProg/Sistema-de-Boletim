@@ -282,7 +282,6 @@ labelLogado:
         }
         else
         {
-            Student aluno;
             char matricula[10];
             system("cls");
             printf("=========================== REMOVER ALUNO ==========================\n");
