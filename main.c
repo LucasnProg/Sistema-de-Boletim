@@ -19,7 +19,7 @@ int main()
 
     Teacher professor;
     int decision;
- 
+
 labelInicial:
 
     printf("====================================================================\n\n");
@@ -239,7 +239,13 @@ labelLogado:
         scanf("%s", aluno.matricula);
         aluno.matricula[strcspn(aluno.matricula, "\n")] = '\0';
 
-        if (checkMatriculaBol(arrayBoletim, aluno.matricula) == true && checkMatricula(studentsArray, aluno.matricula) == true)
+        if (validateMatricula(aluno.matricula) == false)
+        {
+            sleep(5);
+            goto labelCadAluno;
+        }
+
+        else if (checkMatriculaBol(arrayBoletim, aluno.matricula) == true && checkMatricula(studentsArray, aluno.matricula) == true)
         {
             system("cls");
             printf("====================================================================\n");
@@ -278,15 +284,36 @@ labelLogado:
         {
             Student aluno;
             char matricula[10];
-            //system("cls");
+            system("cls");
             printf("=========================== REMOVER ALUNO ==========================\n");
             printf("====================================================================\n");
             printf("\nDIGITE A MATRICULA DO ALUNO:\n\n");
             printf("====================================================================\n");
             scanf("%s", matricula);
             
-            studentsArray = removeAluno(aluno.matricula, studentsArray);
-            arrayBoletim = removeAlunoBoletim(aluno.matricula, arrayBoletim);
+            if (checkMatriculaBol(arrayBoletim, matricula) == true && checkMatricula(studentsArray, matricula) == false)
+            {
+                system("cls");
+                printf("====================================================================\n");
+                printf("\nESSE ALUNO NÃO EXISTE! \n");
+                printf("====================================================================\n");
+                sleep(3);
+                system("cls");
+                goto labelCadAluno;
+            }
+            
+            else
+            {
+                studentsArray = removeAluno(matricula, studentsArray);
+                arrayBoletim = removeAlunoBoletim(matricula, arrayBoletim);
+                sleep(3);
+                system("cls");
+                printf("====================================================================\n");
+                printf("\nALUNO REMOVIDO COM SUCESSO!\n");
+                printf("====================================================================\n");
+                sleep(3);
+                system("cls");
+            }
             // colocar verificação se removeu ou nao
         }
     }
@@ -311,20 +338,32 @@ labelLogado:
             printf("\nDIGITE A MATRICULA DO ALUNO:\n\n");
             printf("====================================================================\n");
             scanf("%s", &matricula);
-            sleep(2);
-            system("cls");
-            printf("====================================================================\n");
-            printf("\nDIGITE A NOTA DO ALUNO:\n\n");
-            printf("====================================================================\n");
-            scanf("%f", &newNota);
-            sleep(3);
-            system("cls");
-            addNota(matricula, newNota, logado.matter, arrayBoletim);
-            printf("====================================================================\n");
-            printf("\nBOLETIM DO ALUNO:\n\n");
-            printf("====================================================================\n");
-            showBoletim(matricula, arrayBoletim);
-            sleep(10);
+            if (checkMatriculaBol(arrayBoletim, matricula) == false && checkMatricula(studentsArray, matricula) == false)
+            {
+                system("cls");
+                printf("====================================================================\n");
+                printf("\nESSE ALUNO NÃO EXISTE! \n");
+                printf("====================================================================\n");
+                sleep(3);
+                system("cls");
+                goto labelCadAluno;
+            }
+            else{
+                sleep(2);
+                system("cls");
+                printf("====================================================================\n");
+                printf("\nDIGITE A NOTA DO ALUNO:\n\n");
+                printf("====================================================================\n");
+                scanf("%f", &newNota);
+                sleep(3);
+                system("cls");
+                addNota(matricula, newNota, logado.matter, arrayBoletim);
+                printf("====================================================================\n");
+                printf("\nBOLETIM DO ALUNO:\n\n");
+                printf("====================================================================\n");
+                showBoletim(matricula, arrayBoletim);
+                sleep(10);
+            }
         }
     }
 

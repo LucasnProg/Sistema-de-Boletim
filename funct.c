@@ -11,6 +11,8 @@ Student *get_students();
 
 void update_Students(Student *studentsArray);
 
+bool validateMatricula(char matricula[]);
+
 bool checkMatricula(Student *arrayStudent, char matr[]);
 
 Student *addAluno(char novoName[], char newMat[], Student *arrayAlunos);
@@ -112,6 +114,29 @@ void update_Students(Student *studentsArray)
     }
 }
 
+bool validateMatricula(char matricula[])
+{
+    setlocale(LC_ALL, "");
+    int notDigit = 0;
+    for (int i = 0; i < 9; i++)
+    {
+        if (!isdigit(matricula[i]))
+        {
+            notDigit++;
+        }
+    }
+    if (strlen(matricula) != 9)
+    {
+        printf("DIGITE UMA MATRÍCULA VÁLIDA, COM 9 DIGITOS!");
+        return false;
+    }
+    else if (notDigit != 0)
+    {
+        printf("DIGITE UMA MATRÍCULA VÁLIDO, APENAS NÚMEROS!");
+        return false;
+    }
+    return true;
+}
 
 bool checkMatricula(Student *arrayStudent, char matr[])
 {
@@ -162,15 +187,14 @@ Student *addAluno(char novoName[], char newMat[], Student *arrayAlunos)
 
 Student *removeAluno(char removeMat[], Student *arrayAlunos)
 {
+    Student *currentStudent = arrayAlunos;
+    Student *proxStudent = arrayAlunos;
+
     if (arrayAlunos == NULL)
     {
         return arrayAlunos;
     }
-    
-    Student *currentStudent = arrayAlunos;
-    Student *proxStudent = arrayAlunos;
-
-    if (currentStudent->nextStudent == NULL)
+    else if (currentStudent->nextStudent == NULL)
     {
         if (strcmp(currentStudent->matricula, removeMat) == 0)
         {
@@ -183,18 +207,23 @@ Student *removeAluno(char removeMat[], Student *arrayAlunos)
     else
     {
         proxStudent = proxStudent->nextStudent;
+        
+        if(strcmp(currentStudent->matricula, removeMat) == 0)
+        {
+            arrayAlunos = proxStudent;
+            free(currentStudent);
+            update_Students(arrayAlunos);
+            return arrayAlunos;
+        }
+        
         while (proxStudent != NULL)
         {
             if (strcmp(proxStudent->matricula, removeMat) == 0)
             {
                 currentStudent->nextStudent = proxStudent->nextStudent;
                 free(proxStudent);
-                while (currentStudent != NULL)
-                    {
-                        printf("Nome: %s, Matrícula: %s\n", currentStudent->name, currentStudent->matricula);
-                        currentStudent = currentStudent->nextStudent;
-                    }
                 update_Students(arrayAlunos);
+
                 return arrayAlunos;
             }
 
@@ -202,36 +231,8 @@ Student *removeAluno(char removeMat[], Student *arrayAlunos)
             proxStudent = proxStudent->nextStudent;
         }
     }
-
-    printf("Nao ha aluno com essa matricula\n");
     return arrayAlunos;
 }
-
-
-/*Student* changeNota(char mat[], float notaNova, Student* arrayAlunos)
-{
-    Student* currentStudent = arrayAlunos;
-    if(arrayAlunos == NULL)
-    {
-        printf("Nao ha alunos para serem alterados.\n");
-        return arrayAlunos;
-    }
-    else
-    {
-        while (currentStudent!= NULL)
-        {
-            if(strcmp(currentStudent->matricula,mat) == 0)
-            {
-                currentStudent->nota = notaNova;
-                update_Students(arrayAlunos);
-                return arrayAlunos;
-            }
-        currentStudent = currentStudent->nextStudent;
-        }
-    }
-    printf("O aluno nao existe.\n");
-    return arrayAlunos;
-}*/
 
 // FUNÇÕES DE PROFESSORES
 
@@ -505,28 +506,6 @@ bool validateCpf(char cpf[])
 
 // FUNÇÕES DE BOLETIM
 
-/*void createClass(char className[], Student *arrayStudents) {
-    FILE *classPtr;
-    Student *currentStudent = arrayStudents;
-    int length = strlen(className) + 5;
-    char nameFile[length];
-    strcpy(nameFile, className);
-    strcat(nameFile, ".dat");
-    if ((classPtr = fopen(nameFile, "w")) == NULL)
-    {
-        printf("Não foi possível acessar esse arquivo\n");
-    }
-    else
-    {
-        while (currentStudent != NULL)
-        {
-            fprintf(classPtr,"%s %s %d\n", currentStudent->name, currentStudent->matricula, 0);
-            currentStudent = currentStudent->nextStudent;
-        }
-        fclose(classPtr);
-    }
-}*/
-
 void updateBoletim(Boletim *boletim)
 {
     FILE *BolFilePtr;
@@ -643,6 +622,15 @@ Boletim *removeAlunoBoletim(char removeMat[], Boletim *arrayBoletim)
     else
     {
         proxBol = proxBol->nextMat;
+
+        if(strcmp(currentBol->matricula, removeMat) == 0)
+        {
+            arrayBoletim= proxBol;
+            free(currentBol);
+            updateBoletim(arrayBoletim);
+            return arrayBoletim;
+        }
+
         while (proxBol != NULL)
         {
             if (strcmp(proxBol->matricula, removeMat) == 0)
@@ -660,23 +648,6 @@ Boletim *removeAlunoBoletim(char removeMat[], Boletim *arrayBoletim)
     }
     return arrayBoletim;
 }
-/*
-void generateBoletim(Student *students)
-{
-    FILE *boletimPtr;
-
-    if ((boletimPtr = fopen("boletim.dat", "w")) == NULL) {
-        printf("Ocorreu algum problema ao acessar o boletim\n");
-        return;
-    }
-
-    while (students != NULL) {
-        fprintf(boletimPtr, "%s %.2f %.2f %.2f %.2f\n", students->matricula, 0.0, 0.0, 0.0, 0.0);
-        students = students->nextStudent;
-    }
-
-    fclose(boletimPtr);
-}*/
 
 Boletim *getBoletim()
 {
