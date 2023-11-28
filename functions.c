@@ -181,7 +181,6 @@ Student *addAluno(char novoName[], char newMat[], Student *arrayAlunos)
 
             currentStudent = currentStudent->nextStudent;
         }
-        
     }
 }
 
@@ -207,15 +206,15 @@ Student *removeAluno(char removeMat[], Student *arrayAlunos)
     else
     {
         proxStudent = proxStudent->nextStudent;
-        
-        if(strcmp(currentStudent->matricula, removeMat) == 0)
+
+        if (strcmp(currentStudent->matricula, removeMat) == 0)
         {
             arrayAlunos = proxStudent;
             free(currentStudent);
             update_Students(arrayAlunos);
             return arrayAlunos;
         }
-        
+
         while (proxStudent != NULL)
         {
             if (strcmp(proxStudent->matricula, removeMat) == 0)
@@ -585,18 +584,18 @@ Boletim *addAlunoBoletim(char newMat[], Boletim *arrayBoletim)
     else
     {
         Boletim *currentBol = arrayBoletim;
-            while (currentBol != NULL)
+        while (currentBol != NULL)
+        {
+            if (currentBol->nextMat == NULL)
             {
-                if (currentBol->nextMat == NULL)
-                {
 
-                    currentBol->nextMat = newStudent;
-                    updateBoletim(arrayBoletim);
-                    return arrayBoletim;
-                }
-
-                currentBol = currentBol->nextMat;
+                currentBol->nextMat = newStudent;
+                updateBoletim(arrayBoletim);
+                return arrayBoletim;
             }
+
+            currentBol = currentBol->nextMat;
+        }
     }
 }
 
@@ -623,9 +622,9 @@ Boletim *removeAlunoBoletim(char removeMat[], Boletim *arrayBoletim)
     {
         proxBol = proxBol->nextMat;
 
-        if(strcmp(currentBol->matricula, removeMat) == 0)
+        if (strcmp(currentBol->matricula, removeMat) == 0)
         {
-            arrayBoletim= proxBol;
+            arrayBoletim = proxBol;
             free(currentBol);
             updateBoletim(arrayBoletim);
             return arrayBoletim;

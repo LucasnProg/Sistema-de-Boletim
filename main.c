@@ -255,7 +255,7 @@ labelLogado:
             system("cls");
             goto labelCadAluno;
         }
-    
+
         else
         {
             studentsArray = addAluno(aluno.name, aluno.matricula, studentsArray);
@@ -289,7 +289,7 @@ labelLogado:
             printf("\nDIGITE A MATRICULA DO ALUNO:\n\n");
             printf("====================================================================\n");
             scanf("%s", matricula);
-            
+
             if (checkMatriculaBol(arrayBoletim, matricula) == true && checkMatricula(studentsArray, matricula) == false)
             {
                 system("cls");
@@ -300,7 +300,7 @@ labelLogado:
                 system("cls");
                 goto labelCadAluno;
             }
-            
+
             else
             {
                 studentsArray = removeAluno(matricula, studentsArray);
@@ -346,7 +346,8 @@ labelLogado:
                 system("cls");
                 goto labelCadAluno;
             }
-            else{
+            else
+            {
                 sleep(2);
                 system("cls");
                 printf("====================================================================\n");
