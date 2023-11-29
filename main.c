@@ -300,6 +300,7 @@ labelLogado:
     }
     else if (logdecision == 2)
     {
+        labelRemoveAluno:
         if (studentsArray == NULL)
         {
             system("cls");
@@ -327,7 +328,7 @@ labelLogado:
                 printf("====================================================================\n");
                 sleep(3);
                 system("cls");
-                goto labelCadAluno;
+                goto labelRemoveAluno;
             }
 
             else
@@ -346,6 +347,7 @@ labelLogado:
     }
     else if (logdecision == 3)
     {
+        labelAdicionaNota:
         if (studentsArray == NULL)
         {
             system("cls");
@@ -373,7 +375,7 @@ labelLogado:
                 printf("====================================================================\n");
                 sleep(3);
                 system("cls");
-                goto labelCadAluno;
+                goto labelAdicionaNota;
             }
             else
             {
