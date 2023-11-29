@@ -319,7 +319,7 @@ labelLogado:
             printf("====================================================================\n");
             scanf("%s", matricula);
 
-            if (checkMatriculaBol(arrayBoletim, matricula) == true && checkMatricula(studentsArray, matricula) == false)
+            if (checkMatriculaBol(arrayBoletim, matricula) == false && checkMatricula(studentsArray, matricula) == false)
             {
                 system("cls");
                 printf("====================================================================\n");
